@@ -1,36 +1,10 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
 import Modal from './components/Modal';
+import axios from 'axios';
 
-const serviceItems = [
-  {
-      id: 1,
-      title: 'Kirpėjas',
-      description: 'Greitas plaukų kirpimas',
-      availability: true
-  },
-  {
-      id: 2,
-      title: 'Santechnikas',
-      description: 'Greitai išvalau vamzdžius',
-      availability: true
-  },
-  {
-      id: 3,
-      title: 'Mokytoja',
-      description: 'Papildomai mokau studentus anglų kalbos',
-      availability: false
-  },
-  {
-      id: 4,
-      title: 'Masažuotojas',
-      description: 'Labai švelnus masažas už prieinamą kainą',
-      availability: true
-  }
-];
 
-export default class App extends Component {
+export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,30 +15,28 @@ export default class App extends Component {
         description: " ",
         availability: true
       },
-      servicesList: serviceItems
+      servicesList: []
     };
   }
 
-  toggle = () => {
-    this.setState({ modal: !this.state.modal })
+  handleChange = e => {
+    let { name, value } = e.target;
+    if (e.target.type === "checkbox") {
+        value = e.target.checked;
+    }
+    const activeItem = { ...this.props.activeItem, [name]: value };
+    this.setState({ activeItem });
   };
 
-  handleSubmit = item => {
-    this.toggle();
-    alert("save" + JSON.stringify(item));
-  };
+  componentDidMount() {
+    this.refreshList();
+  }
 
-  handleDelete = item => {
-    alert("delete" + JSON.stringify(item));
-  };
-
-  createItem = () => {
-    const item = { title: " ", description: " ", availability: true };
-    this.setState({ activeItem: item, modal: !this.state.modal });
-  };
-
-  editItem = item => {
-    this.setState({ activeItem: item, modal: !this.state.modal });
+  refreshList = () => {
+    axios
+      .get("/api/services")
+      .then(res => this.setState({ servicesList: res.data }))
+      .catch(err => console.log(err));
   };
 
   displayCompleted = status => {
@@ -93,12 +65,14 @@ export default class App extends Component {
     );
   };
 
+  
+
   renderItems = () => {
     const { viewAvailable } = this.state;
-    const newItems = this.state.servicesList.filter(
+    const availableItems = this.state.servicesList.filter(
       item => item.availability === viewAvailable
     );
-    return newItems.map(item => (
+    return availableItems.map(item => (
       <li
         key={item.id}
         className="list-group-item d-flex justify-content-between align-items-center"
@@ -127,6 +101,42 @@ export default class App extends Component {
     ));
   };
 
+  toggle = () => {
+    this.setState({ modal: !this.state.modal });
+  };
+
+  handleSubmit = item => {
+    this.toggle();
+    if (item.id) {
+      axios
+        .put(`/api/services/${item.id}/`, item)
+        .then(res => this.refreshList(),
+        this.setState({ modal: !this.state.modal }));
+      return;
+    }
+    axios
+      .post("/api/services/", item)
+      .then(res => this.refreshList());
+    this.setState({ modal: !this.state.modal });
+  };
+
+  handleDelete = item => {
+    axios
+      .delete(`/api/services/${item.id}`)
+      .then(res => this.refreshList());
+  };
+
+  createItem = () => {
+    const item = { title: " ", description: " ", availability: true };
+    this.setState({ activeItem: item, modal: !this.state.modal });
+  };
+
+  editItem = item => {
+    this.setState({ activeItem: item, modal: !this.state.modal });
+  };
+
+
+
   render() {
     return (
       <main className="content">
@@ -148,6 +158,7 @@ export default class App extends Component {
             activeItem={this.state.activeItem}
             toggle={this.toggle}
             onSave={this.handleSubmit}
+            handling={this.handleChange}
             />
         ) : null}
         </div>

@@ -1,0 +1,66 @@
+html {
+    font-size: 100%;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+
+}
+
+.homePageLeft {
+    background-image: linear-gradient(to right, #FFFCEC, #FFE2DD);
+    color: #000000;
+    padding-bottom: 450px;
+    padding-top: 410px;
+    padding-left: 100px;
+    h3 {
+        padding-top: 10px !important;
+    }
+}
+
+.homePageRight {
+    background-image: linear-gradient(to right, #FFE2DD, #FFFCEC);
+    margin-left: -30px;
+    padding-bottom: 870px;
+    padding-top: 50px;
+    text-align: center;
+
+}
+h1 {
+    font-weight: bolder;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+.formField {
+    text-align: left;
+    padding-top: 100px;
+}
+.centeredLoginButton {
+    padding-top: 70px;
+    display: block;
+    margin: auto;
+    a {
+        color: #000000;
+    }
+    a:hover {
+        color: #000000;
+    }
+    h2 {
+        padding-bottom: 30px;
+    }
+}
+.btn-primary {
+    color: #ffffff;
+    background-color: lighten($blurred-pink, 4%);
+    border-color: #ffffff;
+    margin-bottom: 50px;
+}
+.btn-primary:hover {
+    color: $blurred-pink;
+    background-color: #ffffff;
+    border-color: #ffffff;
+}

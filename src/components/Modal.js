@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -9,37 +10,11 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 export default class FormDialog extends React.Component {
-    constructor(props) {
-        super(props);
-      this.state = {
-      open: this.props.toggle,
-      activeItem: this.props.activeItem
-    };
-  }
-  
-    handleChange = e => {
-        let { name, value } = e.target;
-        if (e.target.type === "checkbox") {
-            value = e.target.checked;
-        }
-        const activeItem = { ...this.state.activeItem, [name]: value };
-        this.setState({ activeItem });
-            };
-
-    handleClickOpen = () => {
-      this.setState({ open: true });
-    };
-  
-    handleClose = () => {
-      this.setState({ open: false });
-    };
-  
     render() {
       return (
         <div>
           <Dialog
-            open={this.state.open}
-            onClose={this.handleClose}
+            open={this.props.toggle}
             aria-labelledby="form-dialog-title"
           >
             <DialogTitle id="form-dialog-title">Service Item</DialogTitle>
@@ -53,8 +28,8 @@ export default class FormDialog extends React.Component {
                 id="title"
                 label="Title"
                 type="text"
-                value={this.state.activeItem.title}
-                onChange={this.handleChange}
+                value={this.props.activeItem.title}
+                onChange={this.props.handling}
                 fullWidth
               />
               <TextField
@@ -62,21 +37,21 @@ export default class FormDialog extends React.Component {
                 id="description"
                 label="Description"
                 type="text"
-                value={this.state.activeItem.description}
-                onChange={this.handleChange}
+                value={this.props.activeItem.description}
+                onChange={this.props.handling}
                 fullWidth
               />
               <Checkbox
                 label="Availability"
-                checked={this.state.activeItem.available}
-                onChange={this.handleChange}
+                checked={this.props.activeItem.available}
+                onChange={this.props.handling}
               />
             </DialogContent>
             <DialogActions>
-              <Button onClick={this.handleClose} color="primary">
+              <Button onClick={this.props.toggle} color="primary">
                 Cancel
               </Button>
-              <Button onClick={this.handleClose} color="primary">
+              <Button onClick={this.props.onSave} color="primary">
                 Save
               </Button>
             </DialogActions>
@@ -86,71 +61,3 @@ export default class FormDialog extends React.Component {
     }
   }
 
-
-
-
-
-// import React, { Component } from 'react';
-
-// export default class CustomModal extends Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             activeItem: this.props.activeItem
-//         };
-//     }
-
-//     handleChange = e => {
-//         let { name, value } = e.target;
-//         if (e.target.type === "checkbox") {
-//             value = e.target.checked;
-//         }
-//         const activeItem = { ...this.state.activeItem, [name]: value };
-//         this.setState({ activeItem });
-//     };
-
-//     render() {
-//         const { toggle, onSave } = this.props;
-//         return (
-//             <div className="modal">
-//                 <div className="modal-header"> Service Item </div>
-//                 <div className="modal-body">
-//                     <form>
-//                         <div className="form-group">
-//                             <input
-//                                 type="text"
-//                                 name="title"
-//                                 value={this.state.activeItem.title}
-//                                 onChange={this.handleChange}
-//                                 placeholder="Enter Service Title"
-//                              />
-//                         </div>
-//                         <div className="form-group">
-//                             <input 
-//                                 type="text"
-//                                 name="description"
-//                                 value={this.state.activeItem.description}
-//                                 onChange={this.handleChange}
-//                                 placeholder="Enter Service Description"
-//                             />
-//                         </div>
-//                         <div className="form-group form-check">
-//                                 <input
-//                                     type="checkbox"
-//                                     name="available"
-//                                     checked={this.state.activeItem.available}
-//                                     onChange={this.handleChange}
-//                                 />
-//                                 Completed
-//                         </div>
-//                     </form>
-//                 </div>
-//                 <div className="modal-footer">
-//                     <button className="success" onClick={() => onSave(this.state.activeItem)}>
-//                         Save
-//                     </button>
-//                 </div>
-//             </div>
-//         );
-//     }
-// }

@@ -6,6 +6,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #282c34;
 }
+p {
+  color: #ffffff;
+}
 .service-title {
   cursor: pointer;
 }
@@ -17,12 +20,12 @@ body {
 }
 .tab-list > span {
   padding: 5px 8px;
-  border: 1px solid #282c34;
+  border: 1px solid #ffffff;
   border-radius: 10px;
   margin-right: 5px;
   cursor: pointer;
 }
 .tab-list > span.active {
-  background-color: #282c34;
-  color: #ffffff;
+  background-color: #ffffff;
+  color: #000000;
 }
